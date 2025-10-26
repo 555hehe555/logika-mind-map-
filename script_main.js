@@ -34,6 +34,38 @@ const questions = [
 let currentQuestion = 0;
 let totalScore = 0;
 
+// --- міні API для local storage ---
+function saveStressData(newStressData) {
+  let oldStressData = loadStressData()
+  console.log(oldStressData, newStressData);
+  localStorage.setItem("stressData", JSON.stringify(oldStressData + newStressData));
+  console.log(localStorage.getItem("stressData"));
+  return true;
+}
+
+function loadStressData() {
+  const data = JSON.parse(localStorage.getItem("stressData"));
+  return data || [];
+}
+
+function clearStressData() {
+  localStorage.removeItem("stressData");
+  stressData = [];
+  return true;
+}
+
+function authenticateUser(username, password) {
+  const storedUser = localStorage.getItem("username");
+  const storedPass = localStorage.getItem("password");
+  return username === storedUser && password === storedPass;
+}
+
+function registerUser(username, password) {
+  localStorage.setItem("username", username);
+  localStorage.setItem("password", password);
+  return true;
+}
+
 // --- Створення графіка ---
 let stressChart = new Chart(ctx, {
   type: "line",
@@ -137,7 +169,7 @@ function finishTest() {
     });
   }
 
-  localStorage.setItem("stressData", JSON.stringify(stressData));
+  saveStressData(stressData);
 
   stressLevelText.textContent = `${stressLevel}/10`;
   updateChart();
@@ -147,7 +179,7 @@ function finishTest() {
 // --- Очистити історію ---
 function clearHistory() {
   if (confirm("Очистити всі результати?")) {
-    localStorage.removeItem("stressData");
+    clearStressData();
     stressData = [];
     updateChart();
     updateHistory();

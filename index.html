@@ -1,54 +1,17 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Трекер стресу</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Document</title>
+  <link rel="stylesheet" href="style_first_page.css">
 </head>
 <body>
-  <div class="app">
-    <header>
-      <h1></h1>
-    </header>
-
-    <main>
-        <h2>Твій трекер стресу</h2>
-
-        <p>Сьогоднішній рівень стресу</p>
-        <h1 id="stress-level">–</h1>
-        <button id="test-button">Пройти тест</button>
-        
-        <h3>Динаміка за тиждень</h3>
-        <canvas id="stressChart"></canvas>
-        
-        <h3>Історія результатів</h3>
-        <div id="history-list"></div>
-        
-        <button id="clear-button">Очистити історію</button>
-      </section>
-    </main>
+  <input type="text" name="username">
+  <input type="text" name="userpassword">
+  <input type="submit" value="Надіслати"> 
+  <div>
+  Увійти
   </div>
-  <div id="testModal" class="modal hidden">
-    <div class="modal-content">
-      <h3 id="questionText">Питання з’явиться тут</h3>
-      <div class="answers">
-        <button class="answer" data-value="0">Ні</button>
-        <button class="answer" data-value="1">Трохи</button>
-        <button class="answer" data-value="2">Так</button>
-      </div>
-    </div>
-  </div>
-  
-<div id="reminder" class="reminder hidden">
-    <div class="reminder-content">
-      <h3>Час перевірити свій рівень стресу 🕒</h3>
-      <button id="reminderBtn">Пройти тест</button>
-      <button id="closeReminder">Закрити</button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
