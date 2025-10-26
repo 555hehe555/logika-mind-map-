@@ -1,0 +1,273 @@
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #c8f3e3, #a8d0ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.app {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    width: 800px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+button {
+    background: #6a9cfb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #507fe8;
+}
+
+.stress-display {
+    font-size: 48px;
+    margin: 10px 0;
+    font-weight: bold;
+    color: #f39c12;
+}
+
+.chart-section {
+    margin-top: 30px;
+}
+
+.history {
+    margin-top: 30px;
+}
+
+.history ul {
+    list-style: none;
+    padding: 0;
+}
+
+.history li {
+    background: #f5f7fa;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+    width: 400px;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .answers {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .answer {
+    background: #6a9cfb;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .answer:hover {
+    background: #507fe8;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  /* === НАГАДУВАННЯ === */
+.reminder {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #6a9cfb;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    padding: 20px;
+    z-index: 20;
+    animation: slideIn 0.4s ease;
+  }
+  
+  .reminder-content {
+    text-align: center;
+  }
+  
+  .reminder button {
+    margin: 5px;
+    background: #6a9cfb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .reminder button:hover {
+    background: #507fe8;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .clear-btn {
+    background-color: #ef4444;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+  }
+  
+  .clear-btn:hover {
+    background-color: #dc2626;
+  }
+  button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    background-color: #2563eb;
+  }
+  
+  #clear-button {
+    background-color: #ef4444;
+    margin-top: 10px;
+  }
+  
+  #clear-button:hover {
+    background-color: #dc2626;
+  }
+  
+  .history-item {
+    background: #f3f4f6;
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin: 4px 0;
+  }
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .answers {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .answer {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .answer:hover {
+    background-color: #2563eb;
+  }
+  
+  .reminder {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .reminder-content {
+    text-align: center;
+  }
+  
+  .reminder button {
+    margin: 5px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .reminder button:hover {
+    background-color: #2563eb;
+  }
+  
