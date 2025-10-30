@@ -270,4 +270,9 @@ button:hover {
   .reminder button:hover {
     background-color: #2563eb;
   }
-  
+
+#emulateDayChange{
+    border: none;
+    border-radius: 15px;
+    width: 70px;
+}

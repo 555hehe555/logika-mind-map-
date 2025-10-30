@@ -16,9 +16,12 @@
     <main>
         <h2>Твій трекер стресу</h2>
 
+        <div><a href="index.html">Вийти</a></div>
+
         <p>Сьогоднішній рівень стресу</p>
         <h1 id="stress-level">–</h1>
         <button id="test-button">Пройти тест</button>
+        <label for="emulateDayChange"> </label><input id="emulateDayChange">
         
         <h3>Динаміка за тиждень</h3>
         <canvas id="stressChart"></canvas>
@@ -40,14 +43,7 @@
       </div>
     </div>
   </div>
-  
-<div id="reminder" class="reminder hidden">
-    <div class="reminder-content">
-      <h3>Час перевірити свій рівень стресу 🕒</h3>
-      <button id="reminderBtn">Пройти тест</button>
-      <button id="closeReminder">Закрити</button>
-    </div>
-  </div>
+
 
   <script src="script_main.js"></script>
 </body>

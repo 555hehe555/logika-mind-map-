@@ -6,16 +6,13 @@ const testButton = document.getElementById("test-button");
 const clearButton = document.getElementById("clear-button");
 const historyList = document.getElementById("history-list");
 const ctx = document.getElementById("stressChart").getContext("2d");
+const emulateDayChange = document.getElementById("emulateDayChange");
+let now = new Date(); emulateDayChange.value = now.toLocaleDateString("uk-UA");
 
 // Модалка тесту
 const modal = document.getElementById("testModal");
 const questionText = document.getElementById("questionText");
 const answerButtons = document.querySelectorAll(".answer");
-
-// Нагадування
-const reminder = document.getElementById("reminder");
-const reminderBtn = document.getElementById("reminderBtn");
-const closeReminder = document.getElementById("closeReminder");
 
 // --- Дані ---
 let stressData = JSON.parse(localStorage.getItem("stressData")) || [];
@@ -36,10 +33,9 @@ let totalScore = 0;
 
 // --- міні API для local storage ---
 function saveStressData(newStressData) {
-  let oldStressData = loadStressData()
-  console.log(oldStressData, newStressData);
-  localStorage.setItem("stressData", JSON.stringify(oldStressData + newStressData));
-  console.log(localStorage.getItem("stressData"));
+  const oldStressData = loadStressData();
+  const updated = [...oldStressData, ...newStressData]; // правильне об'єднання масивів
+  localStorage.setItem("stressData", JSON.stringify(updated));
   return true;
 }
 
@@ -52,6 +48,16 @@ function clearStressData() {
   localStorage.removeItem("stressData");
   stressData = [];
   return true;
+}
+
+function getCurrentUser() {
+  let allUsername = localStorage.getItem("username");
+  let currentUser = getCookie("currentUser");
+  if (currentUser in allUsername) {
+    return currentUser;
+  } else {
+    return null;
+  }
 }
 
 function authenticateUser(username, password) {
@@ -110,12 +116,10 @@ function updateChart() {
 }
 
 function updateHistory() {
-  historyList.innerHTML = stressData
-    .map(
-      (item) =>
+  historyList.innerHTML += stressData
+    .map((item) =>
         `<div class="history-item">${item.date} (${item.time}): ${item.value}/10</div>`
-    )
-    .join("");
+    ).join("");
 }
 
 // --- Відображення питання ---
@@ -153,7 +157,7 @@ function finishTest() {
   const stressLevel = Math.round((totalScore / (questions.length * 2)) * 10);
 
   const now = new Date();
-  const dateStr = now.toLocaleDateString("uk-UA");
+  const dateStr = emulateDayChange.value
   const hours = now.getHours().toString().padStart(2, "0");
   const minutes = now.getMinutes().toString().padStart(2, "0");
 
@@ -180,30 +184,11 @@ function finishTest() {
 function clearHistory() {
   if (confirm("Очистити всі результати?")) {
     clearStressData();
-    stressData = [];
     updateChart();
     updateHistory();
+    window.location.reload();
   }
 }
-
-// --- Нагадування ---
-function showReminder() {
-  reminder.classList.remove("hidden");
-}
-
-reminderBtn.addEventListener("click", () => {
-  reminder.classList.add("hidden");
-  startTest();
-});
-
-closeReminder.addEventListener("click", () => {
-  reminder.classList.add("hidden");
-});
-
-// --- Автоматичне нагадування кожні 12 годин ---
-setInterval(() => {
-  showReminder();
-}, 1000 * 60 * 60 * 12);
 
 // --- Події ---
 testButton.addEventListener("click", startTest);
