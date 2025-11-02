@@ -86,3 +86,20 @@ input[type="submit"]:active { transform: translateY(0); opacity: 0.96; }
     body > div { font-size: 1.1rem; max-width: 100%; }
     input[type="text"], input[type="submit"] { max-width: 100%; font-size: 0.98rem; }
 }
+
+.link {
+    background-color:#1e40af;
+    border-radius:10px;
+    padding:20px;
+    cursor: pointer;
+}
+.link a {
+    text-decoration:none;
+    color:white;
+    
+}
+.link:hover {
+    transform: translateY(-2px);
+    transform: translateY(0); opacity: 0.96;
+    
+}
