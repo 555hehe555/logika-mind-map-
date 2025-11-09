@@ -1,105 +1,111 @@
-/* ...existing code... */
-
-/* Загальні налаштування */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    font-family: "Segoe UI", Roboto, Arial, sans-serif;
-    background: linear-gradient(180deg,#f3f7ff 0%,#e9f6ff 100%);
-    padding: 24px;
-    -webkit-font-smoothing: antialiased;
-    color: #062230;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Заголовок форми (div з текстом "Увійти") */
-body > div {
-    order: -1; /* показати заголовок над полями, навіть якщо в html він нижче */
-    width: 100%;
-    max-width: 420px;
-    text-align: center;
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: #072036;
-    margin-bottom: 6px;
+html, body {
+  height: 100%;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #f3f7ff 0%, #e9f6ff 100%);
+  color: #062230;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Контрольне вирівнювання для полів */
-body > input[type="text"],
-body > input[type="submit"] {
-    width: 100%;
-    max-width: 420px;
-    display: block;
+.login-container {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
 }
 
-/* Поля введення */
-input[type="text"], input[name="username"], input[name="userpassword"] {
-    padding: 12px 14px;
-    margin: 8px 0;
-    border-radius: 10px;
-    border: 1px solid rgba(8,32,48,0.08);
-    background: #ffffff;
-    font-size: 1rem;
-    color: #072034;
-    outline: none;
-    transition: box-shadow .15s ease, transform .12s ease, border-color .12s ease;
-    box-shadow: 0 2px 6px rgba(9,30,45,0.04);
+h1 {
+  font-size: 1.8rem;
+  color: #072036;
+  margin-bottom: 24px;
 }
 
-/* Псевдо-тип пароля — якщо інпут не password у HTML, стилізуємо за name */
-input[name="userpassword"] {
-    /* в HTML краще змінити type="password" для безпеки; тут тільки стиль */
+.input-group {
+  text-align: left;
+  margin-bottom: 18px;
 }
 
-/* Фокус на полях */
-input[type="text"]:focus, input[name="userpassword"]:focus {
-    border-color: #4f8fff;
-    box-shadow: 0 8px 20px rgba(79,143,255,0.12);
+label {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  color: #072036;
+  font-weight: 600;
 }
 
-/* Кнопка відправки */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(8, 32, 48, 0.1);
+  background: #ffffff;
+  font-size: 1rem;
+  color: #072034;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  box-shadow: 0 2px 6px rgba(9, 30, 45, 0.04);
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #2563eb;
+  box-shadow: 0 6px 20px rgba(79, 143, 255, 0.15);
+}
+
 input[type="submit"] {
-    margin-top: 6px;
-    padding: 12px 16px;
-    border-radius: 10px;
-    border: none;
-    background: linear-gradient(90deg,#2563eb,#1e40af);
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 10px 26px rgba(37,99,235,0.14);
-    transition: transform .12s ease, opacity .12s ease;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #2563eb, #1e40af);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform .12s ease, opacity .12s ease;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
 }
 
-/* Hover / active */
-input[type="submit"]:hover { transform: translateY(-2px); }
-input[type="submit"]:active { transform: translateY(0); opacity: 0.96; }
-
-/* Адаптив */
-@media (max-width: 480px) {
-    body { padding: 18px; }
-    body > div { font-size: 1.1rem; max-width: 100%; }
-    input[type="text"], input[type="submit"] { max-width: 100%; font-size: 0.98rem; }
+input[type="submit"]:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
 }
 
 .link {
-    background-color:#1e40af;
-    border-radius:10px;
-    padding:20px;
-    cursor: pointer;
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: #072036;
 }
+
 .link a {
-    text-decoration:none;
-    color:white;
-    
+  color: #1e40af;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .2s ease;
 }
-.link:hover {
-    transform: translateY(-2px);
-    transform: translateY(0); opacity: 0.96;
-    
+
+.link a:hover {
+  color: #2563eb;
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 28px 20px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
 }

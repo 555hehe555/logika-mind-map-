@@ -1,23 +1,57 @@
-
-
 // --- Елементи ---
+const logout = document.getElementById("logout");
 const stressLevelText = document.getElementById("stress-level");
 const testButton = document.getElementById("test-button");
 const clearButton = document.getElementById("clear-button");
 const historyList = document.getElementById("history-list");
 const ctx = document.getElementById("stressChart").getContext("2d");
 const emulateDayChange = document.getElementById("emulateDayChange");
-let now = new Date(); emulateDayChange.value = now.toLocaleDateString("uk-UA");
 
-// Модалка тесту
-const modal = document.getElementById("testModal");
-const questionText = document.getElementById("questionText");
-const answerButtons = document.querySelectorAll(".answer");
+let now = new Date();
+emulateDayChange.value = now.toLocaleDateString("uk-UA");
 
-// --- Дані ---
-let stressData = JSON.parse(localStorage.getItem("stressData")) || [];
-stressData = stressData.filter((item) => item && item.date && typeof item.value === "number");
-localStorage.setItem("stressData", JSON.stringify(stressData));
+// --- Допоміжні функції ---
+function getCookie(name) {
+  const cname = name + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1);
+    if (c.indexOf(cname) === 0) {
+      return c.substring(cname.length, c.length);
+    }
+  }
+  return "";
+}
+
+// --- Перевірка користувача ---
+let currentUser = getCookie("currentUser");
+if (!currentUser) {
+  window.location.href = "index.html"; // якщо не увійшов
+}
+
+// --- Завантаження даних користувача ---
+function loadStressData() {
+  const allData = JSON.parse(localStorage.getItem("stressData")) || {};
+  return allData[currentUser] || [];
+}
+
+function saveStressData(newEntries) {
+  const allData = JSON.parse(localStorage.getItem("stressData")) || {};
+  if (!Array.isArray(allData[currentUser])) {  allData[currentUser] = [];  }
+  allData[currentUser].push(...newEntries);
+  localStorage.setItem("stressData", JSON.stringify(allData));
+}
+
+
+function clearStressData() {
+  const allData = JSON.parse(localStorage.getItem("stressData")) || {};
+  delete allData[currentUser];
+  localStorage.setItem("stressData", JSON.stringify(allData));
+}
+
+let stressData = loadStressData();
 
 // --- Питання ---
 const questions = [
@@ -31,48 +65,7 @@ const questions = [
 let currentQuestion = 0;
 let totalScore = 0;
 
-// --- міні API для local storage ---
-function saveStressData(newStressData) {
-  const oldStressData = loadStressData();
-  const updated = [...oldStressData, ...newStressData]; // правильне об'єднання масивів
-  localStorage.setItem("stressData", JSON.stringify(updated));
-  return true;
-}
-
-function loadStressData() {
-  const data = JSON.parse(localStorage.getItem("stressData"));
-  return data || [];
-}
-
-function clearStressData() {
-  localStorage.removeItem("stressData");
-  stressData = [];
-  return true;
-}
-
-function getCurrentUser() {
-  let allUsername = localStorage.getItem("username");
-  let currentUser = getCookie("currentUser");
-  if (currentUser in allUsername) {
-    return currentUser;
-  } else {
-    return null;
-  }
-}
-
-function authenticateUser(username, password) {
-  const storedUser = localStorage.getItem("username");
-  const storedPass = localStorage.getItem("password");
-  return username === storedUser && password === storedPass;
-}
-
-function registerUser(username, password) {
-  localStorage.setItem("username", username);
-  localStorage.setItem("password", password);
-  return true;
-}
-
-// --- Створення графіка ---
+// --- Графік ---
 let stressChart = new Chart(ctx, {
   type: "line",
   data: {
@@ -100,7 +93,7 @@ let stressChart = new Chart(ctx, {
   },
 });
 
-// --- Функції оновлення ---
+// --- Оновлення графіка ---
 function updateChart() {
   const weekData = new Array(7).fill(null);
 
@@ -111,18 +104,43 @@ function updateChart() {
     weekData[dayOfWeek] = item.value;
   });
 
+  // середнє за сьогодні
+  const today = new Date().toLocaleDateString("uk-UA");
+  const todayEntries = stressData.filter((i) => i.date === today);
+  if (todayEntries.length > 0) {
+    const avg =
+      todayEntries.reduce((sum, i) => sum + i.value, 0) / todayEntries.length;
+    const rounded = Math.round(avg * 10) / 10;
+    stressLevelText.textContent = `${rounded}/10`;
+
+    // кольори
+    stressLevelText.style.color =
+      rounded < 4 ? "green" : rounded < 7 ? "orange" : "red";
+  } else {
+    stressLevelText.textContent = "—";
+    stressLevelText.style.color = "black";
+  }
+
   stressChart.data.datasets[0].data = weekData;
   stressChart.update();
 }
 
+
+
 function updateHistory() {
   historyList.innerHTML += stressData
-    .map((item) =>
+    .map(
+      (item) =>
         `<div class="history-item">${item.date} (${item.time}): ${item.value}/10</div>`
-    ).join("");
+    )
+    .join("");
 }
 
-// --- Відображення питання ---
+// --- Модалка тесту ---
+const modal = document.getElementById("testModal");
+const questionText = document.getElementById("questionText");
+const answerButtons = document.querySelectorAll(".answer");
+
 function showQuestion() {
   if (currentQuestion < questions.length) {
     questionText.textContent = questions[currentQuestion];
@@ -131,7 +149,6 @@ function showQuestion() {
   }
 }
 
-// --- Почати тест ---
 function startTest() {
   totalScore = 0;
   currentQuestion = 0;
@@ -139,7 +156,6 @@ function startTest() {
   showQuestion();
 }
 
-// --- Обробка відповіді ---
 answerButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     const value = parseInt(btn.dataset.value);
@@ -149,15 +165,12 @@ answerButtons.forEach((btn) => {
   });
 });
 
-// --- Завершення тесту ---
 function finishTest() {
   modal.classList.add("hidden");
-
-  // Максимальний бал = 2 * кількість питань
   const stressLevel = Math.round((totalScore / (questions.length * 2)) * 10);
 
   const now = new Date();
-  const dateStr = emulateDayChange.value
+  const dateStr = emulateDayChange.value;
   const hours = now.getHours().toString().padStart(2, "0");
   const minutes = now.getMinutes().toString().padStart(2, "0");
 
@@ -184,16 +197,20 @@ function finishTest() {
 function clearHistory() {
   if (confirm("Очистити всі результати?")) {
     clearStressData();
+    stressData = [];
     updateChart();
     updateHistory();
-    window.location.reload();
   }
 }
 
 // --- Події ---
 testButton.addEventListener("click", startTest);
 clearButton.addEventListener("click", clearHistory);
+logout.addEventListener("click", function () {
+  document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  window.location.href = "index.html";
+});
 
-// --- Запуск ---
+// --- Ініціалізація ---
 updateChart();
 updateHistory();

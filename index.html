@@ -1,19 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Увійти в акаунт</title>
   <link rel="stylesheet" href="style_first_page.css">
- 
 </head>
 <body>
-  <input type="text" name="username">
-  <input type="text" name="userpassword">
-  <input type="submit" value="Надіслати"> 
-  <div>
-  <p class = 'link'><a href = 'main.html'>Увійти</a></p>
+  <div class="login-container">
+    <h1>Увійти</h1>
+    <form action="main.html" method="get" class="login-form">
+      <div class="input-group">
+        <label for="username">Логін</label>
+        <input type="text" id="username" name="username" placeholder="Введіть ім'я користувача" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="userpassword" placeholder="Введіть пароль" required>
+      </div>
+      <input id="login" type="submit" value="Увійти">
+    </form>
   </div>
+  <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 </html>
